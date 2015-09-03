@@ -70,6 +70,12 @@ trait SchedulerConfiguration extends ScallopConf {
   lazy val slackWebhookUrl = opt[String]("slack_url",
     descr = "Webhook URL for posting to Slack",
     default = None)
+  lazy val hipChatUrl = opt[String]("hip_chat_url",
+    descr = "HipChat URL, e.g. http://company.hipchat.com/",
+    default = None)
+  lazy val hipChatToken = opt[String]("hip_chat_token",
+    descr = "HipChat API token",
+    default = None)
   lazy val httpNotificationUrl = opt[String]("http_notification_url",
     descr = "Http URL for notifying failures",
     default = None)

@@ -15,7 +15,7 @@ import mesosphere.mesos.util.FrameworkIdUtil
 import org.apache.curator.framework.CuratorFramework
 import org.apache.curator.framework.recipes.leader.LeaderLatch
 import org.apache.mesos.Scheduler
-import org.apache.mesos.chronos.notification.{HttpClient, JobNotificationObserver, MailClient, RavenClient, SlackClient}
+import org.apache.mesos.chronos.notification._
 import org.apache.mesos.chronos.scheduler.graph.JobGraph
 import org.apache.mesos.chronos.scheduler.jobs.stats.JobStats
 import org.apache.mesos.chronos.scheduler.jobs.{JobMetrics, JobScheduler, JobsObserver, TaskManager}
@@ -120,6 +120,11 @@ class MainModule(val config: SchedulerConfiguration with HttpConf)
         endpointUrl <- config.httpNotificationUrl.get if !config.httpNotificationUrl.isEmpty
       } yield {
         create(classOf[HttpClient], endpointUrl, config.httpNotificationCredentials.get)
+      },
+      for {
+        hipChatUrl <- config.hipChatUrl.get if !config.hipChatUrl.isEmpty
+      } yield {
+        create(classOf[HipChatClient], hipChatUrl, config.hipChatToken.get)
       }
     ).flatten
   }
